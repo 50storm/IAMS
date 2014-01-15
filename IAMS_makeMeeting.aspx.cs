@@ -11,6 +11,11 @@ namespace IAMS
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!Page.IsPostBack) {
+                fvMeetingMain.DefaultMode = FormViewMode.ReadOnly;
+
+            
+            }
             
         }
 
@@ -39,6 +44,21 @@ namespace IAMS
           //  Response.Redirect("~/IAMS_makeMeetingSub.aspx");
 
         }
+
+        protected void sdsMeetingMain_Updating(object sender, SqlDataSourceCommandEventArgs e)
+        {
+            if (Page.IsValid)
+            {
+
+
+            }
+            else 
+            {
+                return;
+            }
+        }
+
+
 
 
         
