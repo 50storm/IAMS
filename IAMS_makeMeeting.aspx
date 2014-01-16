@@ -24,6 +24,29 @@
         width: 162px;
     }
 </style>
+
+<script language="javascript">
+    function msgConfirm() {
+        if (!confirm("OK?")) {
+            return false;
+        }
+    }
+    function validatePlace(source, args) {
+        if (args.Value.length == 0) {
+            args.IsValid = false;
+ 
+            obj = document.getElementById('fvMeetingMain_txtPlace');
+            //obj.style.backgroundColor = "Pink";
+            obj.style.backgroundColor = "lime";
+
+            
+        return false;
+        } else {
+            args.IsValid = true;
+        }
+
+    }
+</script>
     <title></title>
 </head>
 <body>
@@ -54,32 +77,39 @@
                                 会議名:             
                             </td>
                             <td class="style1">
-                               <asp:TextBox ID="NameTextBox" runat="server" Text='<%# Bind("Name") %>' />
-                            </td>
-                            <td>
+                               <asp:TextBox ID="txtName" runat="server" Text='<%# Bind("Name") %>' />
                                 <asp:RequiredFieldValidator ID="rfvNameTextBox" runat="server" 
-                                    ErrorMessage="*会議名は必須" ControlToValidate="NameTextBox" CssClass="Invalid">*</asp:RequiredFieldValidator>
+                                    ErrorMessage="*会議名は必須" ControlToValidate="txtName" CssClass="Invalid">*</asp:RequiredFieldValidator>
 
-                            </td>
+                           </td>
                         </tr>
                         <tr>
                             <td class="style2">
                                 年-月-日:
                             </td>
                             <td class="style1">
-                                <asp:TextBox ID="DateYearTextBox" runat="server"  Text='<%# Bind("DateYear") %>' Width="50" ControlToValidate="DateYearTextBox" />
+                                <asp:TextBox ID="txtYear" runat="server"  Text='<%# Bind("DateYear") %>' 
+                                    Width="50" ControlToValidate="DateYearTextBox" />
                                 -
-                                <asp:TextBox ID="DateMonthTextBox" runat="server"  Text='<%# Bind("DateMonth") %>' Width="20" />
+                                <asp:TextBox ID="txtMonth" runat="server"  Text='<%# Bind("DateMonth") %>' 
+                                    Width="20" />
                                 -
-                                <asp:TextBox ID="DateDayTextBox" runat="server" Text='<%# Bind("DateDay") %>' Width="20" />
-                            </td>
-                            <td>
-                                
-                                <asp:RequiredFieldValidator ID="rfvDateYearTextBox" runat="server"  ControlToValidate="DateYearTextBox"  ErrorMessage="*年は必須です。" CssClass="Invalid"  Text="*年"></asp:RequiredFieldValidator>
-                                <asp:RequiredFieldValidator ID="rfvDateMonthTextBox" runat="server"  ControlToValidate="DateYearTextBox"  ErrorMessage="*月は必須です。" CssClass="Invalid"  Text="*月"></asp:RequiredFieldValidator>
-                                <asp:RequiredFieldValidator ID="rfvDateDayTextBox" runat="server"  ControlToValidate="DateYearTextBox"  ErrorMessage="*日は必須です。" CssClass="Invalid"  Text="*日"></asp:RequiredFieldValidator>
+                                <asp:TextBox ID="txtDay" runat="server" Text='<%# Bind("DateDay") %>' 
+                                    Width="20" />
 
-                                <asp:RegularExpressionValidator ID="revDateYearTextBox" runat="server" ErrorMessage="*0000～9999" ControlToValidate="DateYearTextBox" ValidationExpression="\d{4}"></asp:RegularExpressionValidator>
+                                <asp:RequiredFieldValidator ID="rfvDateYearTextBox" runat="server"  
+                                    ControlToValidate="txtYear"  ErrorMessage="*年は必須です。" CssClass="Invalid"  
+                                    Text="*"></asp:RequiredFieldValidator>
+                                <asp:RequiredFieldValidator ID="rfvDateMonthTextBox" runat="server"  
+                                    ControlToValidate="txtMonth"  ErrorMessage="*月は必須です。" CssClass="Invalid"  
+                                    Text="*"></asp:RequiredFieldValidator>
+                                <asp:RequiredFieldValidator ID="rfvDateDayTextBox" runat="server"  
+                                    ControlToValidate="txtDay"  ErrorMessage="*日は必須です。" CssClass="Invalid"  
+                                    Text="*"></asp:RequiredFieldValidator>
+
+                                <asp:RegularExpressionValidator ID="revDateYearTextBox" runat="server" Text="*" CssClass="Invalid"  
+                                    ErrorMessage="*0000～9999" ControlToValidate="txtYear" 
+                                    ValidationExpression="\d{4}"></asp:RegularExpressionValidator>
 
                             </td>
                         </tr>
@@ -88,8 +118,12 @@
                                 場所：
                             </td>
                             <td class="style1">
-                                <asp:TextBox ID="PlaceTextBox" runat="server" Text='<%# Bind("Place") %>' />
-                            </td>
+                                <asp:TextBox ID="txtPlace" runat="server" Text='<%# Bind("Place") %>' />
+                                <asp:CustomValidator ID="CustomValidator1" runat="server" 
+                                    ErrorMessage="CustomValidator" ControlToValidate="txtPlace" 
+                                    onservervalidate="CustomValidator1_ServerValidate" 
+                                    ValidateEmptyText="True" ClientValidationFunction="validatePlace"></asp:CustomValidator>    
+                        </td>
                         </tr>
                         
                         <tr>
@@ -97,8 +131,11 @@
                                 開始時刻：
                             </td>
                             <td class="style1">
-                                <asp:TextBox ID="StartHHTextBox" runat="server" Text='<%# Bind("StartHH") %>' Width="20" />:                
-                                <asp:TextBox ID="StartMMTextBox" runat="server" Text='<%# Bind("StartMM") %>' Width="20" />                
+                                <asp:TextBox ID="txtStartHH" runat="server" Text='<%# Bind("StartHH") %>' 
+                                    Width="20" />:                
+                                <asp:TextBox ID="txtStartMM" runat="server" Text='<%# Bind("StartMM") %>' 
+                                    Width="20" />                
+                               
                             </td>
                     </tr>
 
@@ -107,9 +144,11 @@
                             終了時刻：
                         </td>
                         <td class="style1">
-                            <asp:TextBox ID="EndHHTextBox" runat="server" Text='<%# Bind("EndHH") %>' Width="20" />
+                            <asp:TextBox ID="txtEndHH" runat="server" Text='<%# Bind("EndHH") %>' 
+                                Width="20" />
                             :
-                            <asp:TextBox ID="EndMMTextBox" runat="server" Text='<%# Bind("EndMM") %>' Width="20" />
+                            <asp:TextBox ID="txtEndMM" runat="server" Text='<%# Bind("EndMM") %>' 
+                                Width="20" />
                         </td>
                     </tr>
                     <tr>
@@ -117,14 +156,16 @@
                             コメント：
                         </td>
                         <td class="style1">
-                            <asp:TextBox ID="CommentTextBox" runat="server" Text='<%# Bind("Comment") %>' TextMode="MultiLine" />
+                            <asp:TextBox ID="txtComment" runat="server" Text='<%# Bind("Comment") %>' 
+                                TextMode="MultiLine" />
                         </td>
                     </tr>
                     </tbody>
                 </table>
                     <asp:ValidationSummary ID="vsEdit" runat="server" CssClass="Invalid"  />
                 <br />
-                <asp:LinkButton ID="UpdateButton" runat="server" CausesValidation="True"   CommandName="Update" Text="更新" />
+                <asp:LinkButton ID="UpdateButton" runat="server" CausesValidation="True"   
+                    CommandName="Update" Text="更新" onclientclick="return msgConfirm();" />
                 &nbsp;<asp:LinkButton ID="UpdateCancelButton" runat="server"  CausesValidation="False" CommandName="Cancel" Text="キャンセル" />
             </EditItemTemplate>
             <InsertItemTemplate>
@@ -342,11 +383,59 @@
     </div>
     <hr/>   
     <div>
-        <asp:FormView ID="fvMeetingSub" runat="server" AllowPaging="True">
-            <HeaderTemplate>
-                <asp:Label ID="Label3" runat="server" Text="管理画面サブ"></asp:Label>
-            </HeaderTemplate>
-        </asp:FormView>
+
+    </div>
+    <div>
+<asp:DetailsView ID="DetailsView1" runat="server" Height="50px" Width="310px" 
+            AllowPaging="True" DataSourceID="sdsMeetingSub" AutoGenerateRows="False" 
+            DataKeyNames="MeetingID,SubID">
+    <Fields>
+        <asp:BoundField DataField="MeetingID" HeaderText="MeetingID"  
+            SortExpression="MeetingID" />
+        <asp:BoundField DataField="SubID" HeaderText="SubID" 
+            SortExpression="SubID" />
+        <asp:BoundField DataField="Name" HeaderText="Name" SortExpression="Name" />
+        <asp:BoundField DataField="OkName" HeaderText="OkName" 
+            SortExpression="OkName" />
+        <asp:BoundField DataField="NgName" HeaderText="NgName" 
+            SortExpression="NgName" />
+        <asp:CommandField ShowDeleteButton="True" ShowEditButton="True" 
+            ShowInsertButton="True" />
+    </Fields>
+</asp:DetailsView>
+        <asp:SqlDataSource ID="sdsMeetingSub" runat="server" 
+            ConflictDetection="CompareAllValues" 
+            ConnectionString="<%$ ConnectionStrings:IAMSConnectionString %>" 
+            DeleteCommand="DELETE FROM [MeetingSub] WHERE [MeetingID] = @original_MeetingID AND [SubID] = @original_SubID AND (([Name] = @original_Name) OR ([Name] IS NULL AND @original_Name IS NULL)) AND (([OkName] = @original_OkName) OR ([OkName] IS NULL AND @original_OkName IS NULL)) AND (([NgName] = @original_NgName) OR ([NgName] IS NULL AND @original_NgName IS NULL))" 
+            InsertCommand="INSERT INTO [MeetingSub] ([MeetingID], [SubID], [Name], [OkName], [NgName]) VALUES (@MeetingID, @SubID, @Name, @OkName, @NgName)" 
+            OldValuesParameterFormatString="original_{0}" 
+            SelectCommand="SELECT * FROM [MeetingSub]" 
+            UpdateCommand="UPDATE [MeetingSub] SET [Name] = @Name, [OkName] = @OkName, [NgName] = @NgName WHERE [MeetingID] = @original_MeetingID AND [SubID] = @original_SubID AND (([Name] = @original_Name) OR ([Name] IS NULL AND @original_Name IS NULL)) AND (([OkName] = @original_OkName) OR ([OkName] IS NULL AND @original_OkName IS NULL)) AND (([NgName] = @original_NgName) OR ([NgName] IS NULL AND @original_NgName IS NULL))">
+            <DeleteParameters>
+                <asp:Parameter Name="original_MeetingID" Type="Int32" />
+                <asp:Parameter Name="original_SubID" Type="Int32" />
+                <asp:Parameter Name="original_Name" Type="String" />
+                <asp:Parameter Name="original_OkName" Type="String" />
+                <asp:Parameter Name="original_NgName" Type="String" />
+            </DeleteParameters>
+            <InsertParameters>
+                <asp:Parameter Name="MeetingID" Type="Int32" />
+                <asp:Parameter Name="SubID" Type="Int32" />
+                <asp:Parameter Name="Name" Type="String" />
+                <asp:Parameter Name="OkName" Type="String" />
+                <asp:Parameter Name="NgName" Type="String" />
+            </InsertParameters>
+            <UpdateParameters>
+                <asp:Parameter Name="Name" Type="String" />
+                <asp:Parameter Name="OkName" Type="String" />
+                <asp:Parameter Name="NgName" Type="String" />
+                <asp:Parameter Name="original_MeetingID" Type="Int32" />
+                <asp:Parameter Name="original_SubID" Type="Int32" />
+                <asp:Parameter Name="original_Name" Type="String" />
+                <asp:Parameter Name="original_OkName" Type="String" />
+                <asp:Parameter Name="original_NgName" Type="String" />
+            </UpdateParameters>
+        </asp:SqlDataSource>
     </div>
 </form>
 </body>

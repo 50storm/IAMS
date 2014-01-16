@@ -52,7 +52,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="css\Validation.css" />
+    <Content Include="Global.asax" />
     <Content Include="IAMS_makeMeeting.aspx" />
+    <Content Include="Scripts\jquery-2.0.3-vsdoc.js" />
+    <Content Include="Scripts\jquery-2.0.3.js" />
+    <Content Include="Scripts\jquery-2.0.3.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -63,6 +67,9 @@
     <Content Include="IAMS_makeMeetingSub.aspx" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
     <Compile Include="IAMS_makeMeeting.aspx.cs">
       <DependentUpon>IAMS_makeMeeting.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -78,6 +85,10 @@
     <Compile Include="IAMS_makeMeetingSub.aspx.designer.cs">
       <DependentUpon>IAMS_makeMeetingSub.aspx</DependentUpon>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+    <None Include="Scripts\jquery-2.0.3.min.map" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

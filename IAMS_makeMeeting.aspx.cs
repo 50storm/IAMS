@@ -58,6 +58,28 @@ namespace IAMS
             }
         }
 
+        protected void CustomValidator1_ServerValidate(object source, ServerValidateEventArgs args)
+        {
+
+            TextBox txtPlace = (TextBox)fvMeetingMain.FindControl("txtPlace");
+
+            if (args.Value.ToString().Equals(string.Empty))
+            {
+                args.IsValid = false;
+            
+                txtPlace.BackColor = System.Drawing.Color.Pink;
+
+                
+            }
+            else 
+            {
+                args.IsValid = true;
+            
+                txtPlace.BackColor = System.Drawing.Color.White;
+            }
+
+        }
+
 
 
 
