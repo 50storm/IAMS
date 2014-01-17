@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0" >
+    <siteMapNode url="~/IAMS_menu.aspx" title="メニュー"  description="メニュー画面">
+        <siteMapNode url="~/makeMeeting/IAMS_makeMeeting.aspx" title="会議作成"  description="会議作成画面" />
+        <siteMapNode url="~/inputForm/IAMS_InputForm.aspx" title="出欠参加"  description="出欠参加画面" />
+    </siteMapNode>
+</siteMap>

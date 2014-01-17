@@ -11,10 +11,26 @@ namespace IAMS
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!Page.IsPostBack) {
-                fvMeetingMain.DefaultMode = FormViewMode.ReadOnly;
+            if (!Page.IsPostBack)
+            {
+                //fvMeetingMain.DefaultMode = FormViewMode.ReadOnly;
+                //fvMeetingMain.DefaultMode = FormViewMode.Insert;
+                fvMeetingMain.Visible = true;
+                if (fvMeetingMain.SelectedValue == null)
+                {
+                    fvMeetingMain.DefaultMode = FormViewMode.Insert;
+                }
+                else 
+                {
+                    fvMeetingMain.DefaultMode = FormViewMode.ReadOnly;
+                }
 
-            
+                dvMeetingSub.DefaultMode = DetailsViewMode.Insert;
+            }
+            else 
+            {
+                fvMeetingMain.DefaultMode = FormViewMode.ReadOnly;
+                dvMeetingSub.DefaultMode = DetailsViewMode.ReadOnly;
             }
             
         }
@@ -78,6 +94,17 @@ namespace IAMS
                 txtPlace.BackColor = System.Drawing.Color.White;
             }
 
+        }
+
+        protected void Button1_Click(object sender, EventArgs e)
+        {
+            //if(fvMeetingMain.DefaultMode == FormViewMode.ReadOnly){
+                Label ID = (Label)this.fvMeetingMain.FindControl("lblMeetingID");
+                
+                this.Session["ID"] = ID.Text;
+
+                Response.Redirect("~/IAMS_InputForm.aspx");
+            //}
         }
 
 

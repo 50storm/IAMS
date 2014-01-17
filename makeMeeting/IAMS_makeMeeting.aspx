@@ -52,12 +52,26 @@
 <body>
     <form id="form1" runat="server">
     <div id="Header">
-        <h1><asp:Label ID="Label1" runat="server" Text="会議出欠確認システム(サンプル)"></asp:Label></h1>
+        <asp:Menu ID="Menu1" runat="server" DataSourceID="SiteMapDataSource1" 
+            BackColor="#FFFBD6" DynamicHorizontalOffset="2" Font-Names="Verdana" 
+            Font-Size="0.8em" ForeColor="#990000" StaticSubMenuIndent="10px">
+            <DynamicHoverStyle BackColor="#990000" ForeColor="White" />
+            <DynamicMenuItemStyle HorizontalPadding="5px" VerticalPadding="2px" />
+            <DynamicMenuStyle BackColor="#FFFBD6" />
+            <DynamicSelectedStyle BackColor="#FFCC66" />
+            <StaticHoverStyle BackColor="#990000" ForeColor="White" />
+            <StaticMenuItemStyle HorizontalPadding="5px" VerticalPadding="2px" />
+            <StaticSelectedStyle BackColor="#FFCC66" />
+        </asp:Menu>
+        <asp:SiteMapDataSource ID="SiteMapDataSource1" runat="server" />
     </div>
     <div>
         <asp:FormView ID="fvMeetingMain" runat="server"  Width="242px"   
             DataKeyNames="MeetingID" DataSourceID="sdsMeetingMain" AllowPaging="True" 
              >
+            <EmptyDataTemplate>
+                登録がありません。
+            </EmptyDataTemplate>
             <HeaderTemplate>
                 <asp:Label ID="Label2" runat="server" Text="会議管理画面"></asp:Label>
             </HeaderTemplate>
@@ -176,7 +190,7 @@
                                 会議名:             
                             </td>
                             <td class="style1">
-                               <asp:TextBox ID="NameTextBox" runat="server" Text='<%# Bind("Name") %>' />
+                               <asp:TextBox ID="txtName" runat="server" Text='<%# Bind("Name") %>' />
                             </td>
                         </tr>
                         <tr>
@@ -184,11 +198,11 @@
                                 年-月-日:
                             </td>
                             <td class="style1">
-                                <asp:TextBox ID="DateYearTextBox" runat="server"  Text='<%# Bind("DateYear") %>' Width="50" />
+                                <asp:TextBox ID="txtDateYear" runat="server"  Text='<%# Bind("DateYear") %>' Width="50" />
                                 -
-                                <asp:TextBox ID="DateMonthTextBox" runat="server"  Text='<%# Bind("DateMonth") %>' Width="20" />
+                                <asp:TextBox ID="txtDateMonth" runat="server"  Text='<%# Bind("DateMonth") %>' Width="20" />
                                 -
-                                <asp:TextBox ID="DateDayTextBox" runat="server" Text='<%# Bind("DateDay") %>' Width="20" />
+                                <asp:TextBox ID="txtDateDay" runat="server" Text='<%# Bind("DateDay") %>' Width="20" />
                             </td>
                         </tr>
                         <tr>
@@ -196,7 +210,7 @@
                                 場所：
                             </td>
                             <td class="style1">
-                                <asp:TextBox ID="PlaceTextBox" runat="server" Text='<%# Bind("Place") %>' />
+                                <asp:TextBox ID="txtPlace" runat="server" Text='<%# Bind("Place") %>' />
                             </td>
                         </tr>
                         
@@ -205,8 +219,8 @@
                                 開始時刻：
                             </td>
                             <td class="style1">
-                                <asp:TextBox ID="StartHHTextBox" runat="server" Text='<%# Bind("StartHH") %>' Width="20" />:                
-                                <asp:TextBox ID="StartMMTextBox" runat="server" Text='<%# Bind("StartMM") %>' Width="20" />                
+                                <asp:TextBox ID="txtStartHH" runat="server" Text='<%# Bind("StartHH") %>' Width="20" />:                
+                                <asp:TextBox ID="txtStartMM" runat="server" Text='<%# Bind("StartMM") %>' Width="20" />                
                             </td>
                     </tr>
 
@@ -215,9 +229,9 @@
                             終了時刻：
                         </td>
                         <td class="style1">
-                            <asp:TextBox ID="EndHHTextBox" runat="server" Text='<%# Bind("EndHH") %>' Width="20" />
+                            <asp:TextBox ID="txtEndHH" runat="server" Text='<%# Bind("EndHH") %>' Width="20" />
                             :
-                            <asp:TextBox ID="EndMMTextBox" runat="server" Text='<%# Bind("EndMM") %>' Width="20" />
+                            <asp:TextBox ID="txtEndMM" runat="server" Text='<%# Bind("EndMM") %>' Width="20" />
                         </td>
                     </tr>
                     <tr>
@@ -225,15 +239,11 @@
                             コメント：
                         </td>
                         <td class="style1">
-                            <asp:TextBox ID="CommentTextBox" runat="server" Text='<%# Bind("Comment") %>' TextMode="MultiLine" />
+                            <asp:TextBox ID="txtComment" runat="server" Text='<%# Bind("Comment") %>' TextMode="MultiLine" />
                         </td>
                     </tr>
                     </tbody>
                 </table>           
-
-
-
-
                 <asp:LinkButton ID="InsertButton" runat="server" CausesValidation="True" 
                     CommandName="Insert" Text="挿入" />
                 &nbsp;<asp:LinkButton ID="InsertCancelButton" runat="server" 
@@ -247,7 +257,7 @@
                                 ID:
                             </td>
                             <td>
-                                 <asp:Label ID="MeetingIDLabel" runat="server" Text='<%# Eval("MeetingID") %>' />
+                                 <asp:Label ID="lblMeetingID" runat="server" Text='<%# Eval("MeetingID") %>' />
                             </td>
                         </tr>
                         <tr>              
@@ -255,7 +265,7 @@
                                 会議名:             
                             </td>
                             <td>
-                                <asp:Label ID="NameLabel" runat="server" Text='<%# Bind("Name") %>' />             
+                                <asp:Label ID="lblName" runat="server" Text='<%# Bind("Name") %>' />             
                             </td>
                         </tr>
                         <tr>
@@ -313,7 +323,7 @@
                 <asp:LinkButton ID="EditButton" runat="server" CausesValidation="False" 
                     CommandName="Edit" Text="編集" />
                 &nbsp;<asp:LinkButton ID="DeleteButton" runat="server" CausesValidation="False" 
-                    CommandName="Delete" Text="削除" />
+                    CommandName="Delete" Text="削除" onclientclick="return msgConfirm();" />
                 &nbsp;<asp:LinkButton ID="NewButton" runat="server" CausesValidation="False" 
                     CommandName="New" Text="新規作成" />
             </ItemTemplate>
@@ -386,9 +396,14 @@
 
     </div>
     <div>
-<asp:DetailsView ID="DetailsView1" runat="server" Height="50px" Width="310px" 
+<asp:DetailsView ID="dvMeetingSub" runat="server" Height="50px" Width="310px" 
             AllowPaging="True" DataSourceID="sdsMeetingSub" AutoGenerateRows="False" 
-            DataKeyNames="MeetingID,SubID">
+            DataKeyNames="MeetingID,SubID" CellPadding="4" ForeColor="#333333" 
+            GridLines="None">
+    <AlternatingRowStyle BackColor="White" />
+    <CommandRowStyle BackColor="#D1DDF1" Font-Bold="True" />
+    <EditRowStyle BackColor="#2461BF" />
+    <FieldHeaderStyle BackColor="#DEE8F5" Font-Bold="True" />
     <Fields>
         <asp:BoundField DataField="MeetingID" HeaderText="MeetingID"  
             SortExpression="MeetingID" />
@@ -402,6 +417,10 @@
         <asp:CommandField ShowDeleteButton="True" ShowEditButton="True" 
             ShowInsertButton="True" />
     </Fields>
+    <FooterStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
+    <HeaderStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
+    <PagerStyle BackColor="#2461BF" ForeColor="White" HorizontalAlign="Center" />
+    <RowStyle BackColor="#EFF3FB" />
 </asp:DetailsView>
         <asp:SqlDataSource ID="sdsMeetingSub" runat="server" 
             ConflictDetection="CompareAllValues" 
@@ -436,6 +455,11 @@
                 <asp:Parameter Name="original_NgName" Type="String" />
             </UpdateParameters>
         </asp:SqlDataSource>
+    </div>
+
+    <div>
+        <asp:TextBox ID="TextBox1" runat="server"></asp:TextBox>
+        <asp:Button ID="Button1" runat="server" Text="Button" onclick="Button1_Click" />
     </div>
 </form>
 </body>
